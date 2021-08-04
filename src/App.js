@@ -1,22 +1,18 @@
 import "./App.css";
+import { HashRouter, Switch, Route } from "react-router-dom";
+
+import Home from "./Pages/Home";
+import Upload from "./Pages/Restaurant";
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <HashRouter>
+            {/* <Header /> */}
+            <Switch>
+                <Route path="/restaurant" component={Upload} />
+                <Route path="/" component={Home} />
+            </Switch>
+        </HashRouter>
     );
 }
 
