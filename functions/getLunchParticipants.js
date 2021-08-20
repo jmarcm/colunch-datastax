@@ -6,18 +6,18 @@ exports.handler = async function (event, context) {
     const body = JSON.parse(event.body);
     console.log(body);
 
-    const login = JSON.stringify(body.login);
-    const password = JSON.stringify(body.password);
+    const selectedLunchDate = JSON.stringify(body.selectedLunchDate);
+    console.log(selectedLunchDate);
 
     const query = `
-    query checkPassword {
-        coworker_password_list(value: {
-          login: ${login},
-          password: ${password}
-        }){
-          values{firstname, name}
+        query getParticipants {
+            participant_list(value: {date: ${selectedLunchDate}}) {
+                values {
+                    date
+                    voters{key, value}
+                }
+            }
         }
-      }
     `;
 
     const response = await fetch(url, {
@@ -36,7 +36,6 @@ exports.handler = async function (event, context) {
             body: JSON.stringify(responseBody),
         };
     } catch (e) {
-        console.log(e);
         return {
             statusCode: 500,
             body: JSON.stringify(e),

@@ -1,0 +1,16 @@
+.lunch-dates {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7em, 1fr));
+
+    grid-gap: 0.7em;
+}
+
+.lunch-dates p {
+    padding: 0.6em 0.2em;
+    border: 1px solid #000;
+    text-align: center;
+}
+
+.lunch-dates button {
+    padding: 0.3em 0;
+}

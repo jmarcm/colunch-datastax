@@ -4,7 +4,6 @@ exports.handler = async function (event, context) {
     const url = process.env.ASTRA_GRAPHQL_ENDPOINT;
 
     const body = JSON.parse(event.body);
-    console.log(body);
 
     const firstname = JSON.stringify(body.firstname);
     const name = JSON.stringify(body.name);
@@ -17,7 +16,7 @@ exports.handler = async function (event, context) {
                     name: ${name},
                 }
             ){
-            values{firstname, name, vegetarien, telephone, adresse}
+            values{firstname, name, vegetarien, role, telephone, adresse}
         }
       }
     `;

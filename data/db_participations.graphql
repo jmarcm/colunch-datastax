@@ -1,0 +1,27 @@
+mutation insertLunchParticipations {
+    insertparticipant_list(
+        value: {
+            date: "2021-08-01"
+            voters: [
+                [
+                    { key: "firstname", value: "Jean-Marc" }
+                    { key: "name", value: "M" }
+                ]
+                [
+                    { key: "firstname", value: "Yasmine" }
+                    { key: "name", value: "D" }
+                ]
+            ]
+        }
+    ) {
+        value {
+            date
+            voters {
+                key
+                value
+            }
+        }
+        applied
+    }
+}
+

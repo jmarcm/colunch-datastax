@@ -5,19 +5,17 @@ exports.handler = async function (event, context) {
 
     const body = JSON.parse(event.body);
     console.log(body);
-
-    const login = JSON.stringify(body.login);
-    const password = JSON.stringify(body.password);
+    const newDate = JSON.stringify(body.newDate);
+    console.log(newDate);
 
     const query = `
-    query checkPassword {
-        coworker_password_list(value: {
-          login: ${login},
-          password: ${password}
-        }){
-          values{firstname, name}
+        mutation insertLunchDate {
+            insertparticipant_list(
+            value : {
+                date: ${newDate}
+            }
+            ){value{date}, applied}
         }
-      }
     `;
 
     const response = await fetch(url, {

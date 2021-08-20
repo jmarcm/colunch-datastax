@@ -6,16 +6,34 @@ exports.handler = async function (event, context) {
     const body = JSON.parse(event.body);
     console.log(body);
 
-    const login = JSON.stringify(body.login);
-    const password = JSON.stringify(body.password);
+    const date = JSON.stringify(body.date);
+    console.log(date);
+
+    const user = body.user;
+
+    const firstname = JSON.stringify(user.firstname);
+    const name = JSON.stringify(user.name);
+    const vegetarien = JSON.stringify(user.vegetarien);
+
+    console.log(firstname);
 
     const query = `
-    query checkPassword {
-        coworker_password_list(value: {
-          login: ${login},
-          password: ${password}
-        }){
-          values{firstname, name}
+    mutation unregisterCoworker {
+        deleteparticipants_list(
+            value: {
+                date: ${date}
+                firstname: ${firstname}
+                name: ${name}
+                vegetarien: ${vegetarien}
+            }
+            ifExists: true
+        ) {
+            value {
+                date
+                firstname
+                name
+            }
+            applied
         }
       }
     `;

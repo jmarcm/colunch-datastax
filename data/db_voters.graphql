@@ -1,0 +1,125 @@
+mutation {
+    vote_list: createTable(
+        keyspaceName: "side_projects"
+        tableName: "vote_list"
+        ifNotExists: true
+        partitionKeys: [{ name: "date", type: { basic: DATE } }]
+        values: [
+            { name: "restaurant_name", type: { basic: TEXT } }
+            {
+                name: "voters"
+                type: { basic: LIST, info: { subTypes: [{ basic: TEXT }] } }
+            }
+        ]
+    )
+}
+
+mutation {
+    vote_list: createTable(
+        keyspaceName: "side_projects"
+        tableName: "vote_list"
+        ifNotExists: true
+        partitionKeys: [{ name: "date", type: { basic: DATE } }]
+        clusteringKeys: [{ name: "restaurant_name", type: { basic: TEXT } }]
+        values: [
+            {
+                name: "voters"
+                type: {
+                    basic: LIST
+                    info: {
+                        subTypes: [
+                            {
+                                basic: MAP
+                                info: {
+                                    subTypes: [{ basic: TEXT }, { basic: TEXT }]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    )
+}
+
+mutation insertVotes {
+    insertvote_list(
+        value: {
+            date: "2021-08-01"
+            restaurant_name: "Petits délices entre amis"
+            voters: [
+                [
+                    { key: "firstname", value: "Maud" }
+                    { key: "name", value: "S" }
+                ]
+                [
+                    { key: "firstname", value: "Aurélie" }
+                    { key: "name", value: "G" }
+                ]
+            ]
+        }
+    ) {
+        value {
+            date
+            restaurant_name
+            voters {
+                key
+                value
+            }
+        }
+    }
+}
+
+mutation insertVotes {
+    insertvote_list_flat(
+        value: {
+            date: "2021-08-01"
+            restaurant_name: "Petits délices entre amis"
+            voter: [
+                { key: "firstname", value: "Aurélie" }
+                { key: "name", value: "G" }
+            ]
+        }
+    ) {
+        value {
+            date
+            restaurant_name
+            voter {
+                key
+                value
+            }
+        }
+    }
+}
+
+query getVoters {
+    vote_list(value: { date: "2021-08-01", restaurant_name: "Yummi" }) {
+        values {
+            date
+            restaurant_name
+            voters {
+                key
+                value
+            }
+        }
+    }
+}
+
+query GetTables {
+    keyspace(name: "side_projects") {
+        name
+        tables {
+            name
+            columns {
+                name
+                kind
+                type {
+                    basic
+                    info {
+                        name
+                    }
+                }
+            }
+        }
+    }
+}

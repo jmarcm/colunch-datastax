@@ -3,19 +3,12 @@ const fetch = require("node-fetch");
 exports.handler = async function (event, context) {
     const url = process.env.ASTRA_GRAPHQL_ENDPOINT;
 
-    const body = JSON.parse(event.body);
-    console.log(body);
-
-    const login = JSON.stringify(body.login);
-    const password = JSON.stringify(body.password);
-
     const query = `
-    query checkPassword {
-        coworker_password_list(value: {
-          login: ${login},
-          password: ${password}
-        }){
-          values{firstname, name}
+    query getParticipants {
+        participant_list(value: {}) {
+            values {
+                date
+            }
         }
       }
     `;
