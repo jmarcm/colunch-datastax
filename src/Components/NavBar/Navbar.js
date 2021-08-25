@@ -28,7 +28,12 @@ function Navbar({ user, updateUser }) {
                             <button onClick={handleLogout}>Déconnexion</button>
                         </li>
 
-                        <li>{user.firstname}</li>
+                        <li>
+                            {user.role === "admin" && (
+                                <i className="fas fa-crown"></i>
+                            )}
+                            {user.firstname} {user.name}
+                        </li>
                     </>
                 )}
 
