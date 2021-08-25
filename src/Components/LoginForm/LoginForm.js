@@ -30,13 +30,10 @@ function LoginForm({ connectUser }) {
         const coworkerData = responseBody.data.coworker_password_list.values;
         console.log(coworkerData);
         if (coworkerData.length === 1) {
-
             setSuccess(true);
 
             connectUser(coworkerData);
-
         } else {
-
             setSuccess(false);
         }
     }

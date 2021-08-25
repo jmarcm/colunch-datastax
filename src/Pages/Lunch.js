@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import { useEffect, useState } from "react";
+import { Redirect } from "react-router";
 
 import "./Lunch.css";
 
@@ -75,53 +76,53 @@ function Lunch({ user }) {
         }
     }
 
-    // if (user) {
-    return (
-        <>
-            <h1>Organisation des lunchs</h1>
-            <div id="lunch-history">
-                <h2>Historique des lunchs</h2>
-                <div className="lunch-dates">
-                    {lunchDates.map((lunchDate, index) => {
-                        return (
-                            <DateButton
-                                key={index}
-                                lunchDate={lunchDate}
-                                onLunchDateClick={setSelectedDate}
-                            />
-                        );
-                    })}
+    if (user) {
+        return (
+            <>
+                <h1>Organisation des lunchs</h1>
+                <div id="lunch-history">
+                    <h2>Historique des lunchs</h2>
+                    <div className="lunch-dates">
+                        {lunchDates.map((lunchDate, index) => {
+                            return (
+                                <DateButton
+                                    key={index}
+                                    lunchDate={lunchDate}
+                                    onLunchDateClick={setSelectedDate}
+                                />
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
-            {user.role === "admin" && (
-                <div id="lunch-proposition">
-                    <h2>Proposer un lunch</h2>
-                    <input
-                        type="text"
-                        placeholder="Nouvelle date"
-                        onChange={handleDateChange}
-                        value={newDate}
+                {user?.role === "admin" && (
+                    <div id="lunch-proposition">
+                        <h2>Proposer un lunch</h2>
+                        <input
+                            type="text"
+                            placeholder="Nouvelle date"
+                            onChange={handleDateChange}
+                            value={newDate}
+                        />
+                        <input
+                            type="button"
+                            onClick={handleAddDateClick}
+                            value="Valider"
+                        />
+                        <p>Indiquer la date au format "aaaa-mm-jj"</p>
+                        <p>{dateErrorMessage}</p>
+                    </div>
+                )}
+                {selectedLunchDate && (
+                    <SwitchLunchDisplay
+                        user={user}
+                        selectedLunchDate={selectedLunchDate}
                     />
-                    <input
-                        type="button"
-                        onClick={handleAddDateClick}
-                        value="Valider"
-                    />
-                    <p>Indiquer la date au format "aaaa-mm-jj"</p>
-                    <p>{dateErrorMessage}</p>
-                </div>
-            )}
-            {selectedLunchDate && (
-                <SwitchLunchDisplay
-                    user={user}
-                    selectedLunchDate={selectedLunchDate}
-                />
-            )}
-        </>
-    );
-    // } else {
-    //     return <Redirect to="/" push={true} />;
-    // }
+                )}
+            </>
+        );
+    } else {
+        return <Redirect to="/" push={true} />;
+    }
 }
 
 export default Lunch;

@@ -1,9 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar({ user, updateUser }) {
     function handleLogout() {
         updateUser(null);
+        return <Redirect to="/" push={true} />;
     }
 
     return (
@@ -22,12 +23,27 @@ function Navbar({ user, updateUser }) {
                         <li>
                             <NavLink to="/lunch">Lunches</NavLink>
                         </li>
+
                         <li>
                             <button onClick={handleLogout}>Déconnexion</button>
                         </li>
+
+                        <li>{user.firstname}</li>
                     </>
                 )}
-                {user && <li>{user.firstname}</li>}
+
+                {/* {user && <li>{user.firstname}</li>} */}
+
+                {!user && (
+                    <>
+                        {/* <li>
+                            <NavLink to="/connexion">Connexion</NavLink>
+                        </li> */}
+                        <li>
+                            <NavLink to="/inscription">Inscription</NavLink>
+                        </li>
+                    </>
+                )}
             </ul>
         </div>
     );

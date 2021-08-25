@@ -1,0 +1,7 @@
+.inscription-form label {
+    display: block;
+}
+
+.inscription-form label ~ label {
+    margin-top: 1em;
+}

@@ -11,10 +11,12 @@ exports.handler = async function (event, context) {
 
     const query = `
         query getParticipants {
-            participant_list(value: {date: ${selectedLunchDate}}) {
-                values {
-                    date
-                    voters{key, value}
+            participants_list(value: {date: ${selectedLunchDate}}) {
+            values {
+                date
+                firstname
+                name
+                vegetarien
                 }
             }
         }

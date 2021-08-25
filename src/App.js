@@ -6,6 +6,8 @@ import "./App.css";
 
 import Home from "./Pages/Home";
 import Restaurant from "./Pages/Restaurant";
+import Connexion from "./Pages/Connexion";
+import Inscription from "./Pages/Inscription";
 import Lunch from "./Pages/Lunch";
 import Navbar from "./Components/NavBar/Navbar";
 
@@ -60,6 +62,8 @@ function App() {
                     render={(props) => <Lunch {...props} user={user} />}
                 />
 
+                <Route path="/connexion" component={Connexion} />
+                <Route path="/inscription" component={Inscription} />
                 <Route
                     path="/"
                     render={(props) => (

@@ -4,19 +4,26 @@ exports.handler = async function (event, context) {
     const url = process.env.ASTRA_GRAPHQL_ENDPOINT;
 
     const body = JSON.parse(event.body);
+    console.log(body);
 
     const login = JSON.stringify(body.login);
     const password = JSON.stringify(body.password);
+    const firstname = JSON.stringify(body.firstname);
+    const name = JSON.stringify(body.name);
 
     const query = `
-    query checkPassword {
-        coworker_password_list(value: {
-          login: ${login},
-          password: ${password}
-        }){
-          values{firstname, name}
+        mutation registerCoworker {
+            insertcoworker_password_list(
+                value: {
+                    login: ${login}
+                    password: ${password}
+                    firstname: ${firstname}
+                    name: ${name}
+                }
+            ) {
+                applied, value {firstname name}
+            }
         }
-      }
     `;
 
     const response = await fetch(url, {

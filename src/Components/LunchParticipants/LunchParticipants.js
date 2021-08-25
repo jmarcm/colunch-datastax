@@ -21,19 +21,19 @@ function LunchParticipants({ selectedLunchDate }) {
         );
         const responseBody = await response.json();
 
-        const votes = responseBody.data.participant_list.values;
-
+        const participants = responseBody.data.participants_list.values;
+        console.log(participants);
         // function
-        const voters = votes[0].voters || [];
+        // const voters = votes[0].voters || [];
 
-        const participants = [];
-        for (const voter of voters) {
-            const participant = {};
+        // const participants = [];
+        // for (const voter of voters) {
+        //     const participant = {};
 
-            voter.map((entry) => (participant[entry.key] = entry.value));
+        //     voter.map((entry) => (participant[entry.key] = entry.value));
 
-            participants.push(participant);
-        }
+        //     participants.push(participant);
+        // }
 
         setLunchParticipants(participants);
     }
@@ -47,9 +47,13 @@ function LunchParticipants({ selectedLunchDate }) {
                 <>
                     <h3>Liste des participants</h3>
                     <div className="participants">
-                        {lunchParticipants.map((participant, index) => (
-                            <p key={index}>{participant.firstname}</p>
-                        ))}
+                        <ol>
+                            {lunchParticipants.map((participant, index) => (
+                                <li key={index}>
+                                    {participant.firstname} {participant.name}
+                                </li>
+                            ))}
+                        </ol>
                     </div>
                 </>
             )}
