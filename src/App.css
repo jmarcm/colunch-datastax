@@ -37,6 +37,16 @@
     }
 }
 
-P {
+/***************/
+
+#root {
+    width: 100%;
+}
+
+p {
     margin: 0;
+}
+
+input:read-only {
+    border: 0;
 }

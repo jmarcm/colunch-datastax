@@ -17,7 +17,7 @@ function Navbar({ user, updateUser }) {
                     <>
                         <li>
                             <NavLink to="/restaurant">
-                                Choix des restaurants
+                                Gérer les restaurants
                             </NavLink>
                         </li>
                         <li>

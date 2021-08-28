@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 import "./App.css";
 
 import Home from "./Pages/Home";
-import Restaurant from "./Pages/Restaurant";
+import Restaurants from "./Pages/Restaurants";
 import Connexion from "./Pages/Connexion";
 import Inscription from "./Pages/Inscription";
 import Lunch from "./Pages/Lunch";
@@ -55,7 +55,10 @@ function App() {
         <HashRouter>
             <Navbar user={user} updateUser={updateUser} />
             <Switch>
-                <Route path="/restaurant" component={Restaurant} />
+                <Route
+                    path="/restaurant"
+                    render={(props) => <Restaurants {...props} user={user} />}
+                />
 
                 <Route
                     path="/lunch"

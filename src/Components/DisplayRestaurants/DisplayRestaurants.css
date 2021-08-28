@@ -1,0 +1,11 @@
+.restaurants-wrapper {
+    /* display: flex;
+    flex-basis: 13rem;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14.2rem, 1fr));
+}
+
+.restaurant {
+    padding: 0 1em;
+}

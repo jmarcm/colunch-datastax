@@ -1,0 +1,9 @@
+.proposition-restaurant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.suggest-restaurant label {
+    display: block;
+}

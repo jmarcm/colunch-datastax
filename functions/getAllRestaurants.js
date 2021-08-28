@@ -3,17 +3,20 @@ const fetch = require("node-fetch");
 exports.handler = async function (event, context) {
     const url = process.env.ASTRA_GRAPHQL_ENDPOINT;
 
-    const body = JSON.parse(event.body);
-
-    const newDate = JSON.stringify(body.newDate);
-
     const query = `
-        mutation insertLunchDate {
-            insertparticipant_list(
-            value : {
-                date: ${newDate}
+        query getAllRestaurants {
+            restaurant_list(value: {}) {
+                values {
+                    name
+                    menu_vegetarien
+                    adresse
+                    telephone
+                    avis
+                    commentaire
+                    propose_par
+                    livraison
+                }
             }
-            ){value{date}, applied}
         }
     `;
 
