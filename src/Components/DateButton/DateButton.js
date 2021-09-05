@@ -1,6 +1,6 @@
 import "./DateButton.css";
 
-function DateButton({ lunchDate, onLunchDateClick }) {
+function DateButton({ lunchDate, _onLunchDateClick }) {
     const rawDate = new Date(lunchDate);
     const options = {
         weekday: "short",
@@ -11,7 +11,7 @@ function DateButton({ lunchDate, onLunchDateClick }) {
     const displayedDate = rawDate.toLocaleString("fr-FR", options);
 
     function handleClick(e) {
-        onLunchDateClick(e.target.dataset.value);
+        _onLunchDateClick(e.target.dataset.value);
     }
 
     return (

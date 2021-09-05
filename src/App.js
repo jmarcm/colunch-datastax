@@ -11,13 +11,20 @@ import Inscription from "./Pages/Inscription";
 import Lunch from "./Pages/Lunch";
 import Navbar from "./Components/NavBar/Navbar";
 
+import { RestaurantsProvider } from "./contexts/RestaurantsContext";
+
+const { sortArrayOfObjects } = require("./utils/objects");
+
 function App() {
     const [user, setUser] = useState(
         JSON.parse(sessionStorage.getItem("user")) || null
     );
 
+    const [restaurants, setRestaurants] = useState([]);
+    console.log(restaurants);
     useEffect(() => {
         sessionStorage.setItem("user", JSON.stringify(user));
+        // fetchGetAllRestaurants();
     }, [user]);
 
     function connectUser(userData) {
@@ -51,34 +58,55 @@ function App() {
         setUser(userData);
     }
 
+    // async function fetchGetAllRestaurants() {
+    //     const response = await fetch("/.netlify/functions/getAllRestaurants");
+
+    //     const responseBody = await response.json();
+
+    //     const allRestaurants = sortArrayOfObjects(
+    //         responseBody.data.restaurant_list.values
+    //     );
+    //     setRestaurants(allRestaurants);
+    // }
+
     return (
-        <HashRouter>
-            <Navbar user={user} updateUser={updateUser} />
-            <Switch>
-                <Route
-                    path="/restaurant"
-                    render={(props) => <Restaurants {...props} user={user} />}
-                />
+        <RestaurantsProvider value={[restaurants, setRestaurants]}>
+            <HashRouter>
+                <Navbar user={user} updateUser={updateUser} />
+                <Switch>
+                    <Route
+                        path="/restaurant"
+                        render={(props) => (
+                            <Restaurants {...props} user={user} />
+                        )}
+                    />
 
-                <Route
-                    path="/lunch"
-                    render={(props) => <Lunch {...props} user={user} />}
-                />
+                    <Route
+                        path="/lunch"
+                        render={(props) => (
+                            <Lunch
+                                {...props}
+                                user={user}
+                                // _fetchGetAllRestaurants={fetchGetAllRestaurants}
+                            />
+                        )}
+                    />
 
-                <Route path="/connexion" component={Connexion} />
-                <Route path="/inscription" component={Inscription} />
-                <Route
-                    path="/"
-                    render={(props) => (
-                        <Home
-                            {...props}
-                            user={user}
-                            connectUser={connectUser}
-                        />
-                    )}
-                />
-            </Switch>
-        </HashRouter>
+                    <Route path="/connexion" component={Connexion} />
+                    <Route path="/inscription" component={Inscription} />
+                    <Route
+                        path="/"
+                        render={(props) => (
+                            <Home
+                                {...props}
+                                user={user}
+                                connectUser={connectUser}
+                            />
+                        )}
+                    />
+                </Switch>
+            </HashRouter>
+        </RestaurantsProvider>
     );
 }
 

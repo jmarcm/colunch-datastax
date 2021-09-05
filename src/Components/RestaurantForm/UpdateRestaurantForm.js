@@ -1,28 +1,43 @@
 import { useState } from "react";
-import "./AddRestaurantForm.css";
-
-import StarsRating from "../StarsRating/StarsRating";
+import { useHistory } from "react-router-dom";
 import fetch from "node-fetch";
 
-function AddRestaurantForm({ user, _fetchGetAllRestaurants }) {
-    const [restaurantName, setRestaurantName] = useState("");
-    const [hasMenuVegetarien, setHasMenuVegetarien] = useState(false);
-    const [restaurantAddress, setRestaurantAddress] = useState("");
-    const [restaurantTelephone, setRestaurantTelephone] = useState("");
-    const [restaurantRating, setRestaurantRating] = useState("");
-    const [comment, setComment] = useState("");
-    const [livraison, setLivraison] = useState(false);
+import "./RestaurantForm.css";
+
+import StarsRating from "../StarsRating/StarsRating";
+
+function UpdateRestaurantForm({ selectedRestaurant, user, _onClickBack }) {
+    const [restaurantName, setRestaurantName] = useState(
+        selectedRestaurant.name
+    );
+    const [hasMenuVegetarien, setHasMenuVegetarien] = useState(
+        selectedRestaurant.menu_vegetarien
+    );
+    const [restaurantAddress, setRestaurantAddress] = useState(
+        selectedRestaurant.adresse
+    );
+    const [restaurantTelephone, setRestaurantTelephone] = useState(
+        selectedRestaurant.telephone
+    );
+    const [restaurantRating, setRestaurantRating] = useState(
+        selectedRestaurant.avis
+    );
+    const [comment, setComment] = useState(selectedRestaurant.commentaire);
+    const [livraison, setLivraison] = useState(selectedRestaurant.livraison);
     const proposedBy = `${user.firstname} ${user.name}`;
+
+    const history = useHistory();
 
     function updateRestaurantRating(newRating) {
         setRestaurantRating(newRating);
     }
 
+    /** Valide la modification d'un restaurant */
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const fetchAddSuggestedRestaurant = await fetch(
-            "/.netlify/functions/addRestaurant",
+        const fetchUupdateRestaurant = await fetch(
+            "/.netlify/functions/updateRestaurant",
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -38,17 +53,21 @@ function AddRestaurantForm({ user, _fetchGetAllRestaurants }) {
             }
         );
 
-        const response = await fetchAddSuggestedRestaurant.json();
+        const response = await fetchUupdateRestaurant.json();
+        console.log(response.data);
+        // if (response.data.insertrestaurant_list.applied) {
+        //     // _fetchGetAllRestaurants();
+        // }
+    }
 
-        if (response.data.insertrestaurant_list.applied) {
-            _fetchGetAllRestaurants();
-        }
+    function handleClick() {
+        _onClickBack(null, {});
     }
 
     return (
         <div className="proposition-restaurant">
             <h2>Proposition de restaurant</h2>
-            <form className="suggest-restaurant" onSubmit={handleSubmit}>
+            <form className="update-restaurant" onSubmit={handleSubmit}>
                 <label>
                     Nom
                     <input
@@ -126,9 +145,9 @@ function AddRestaurantForm({ user, _fetchGetAllRestaurants }) {
                 </label>
                 <input type="submit" value="Valider" />
             </form>
-            <p>{hasMenuVegetarien}</p>
+            <button onClick={handleClick}>Retour</button>
         </div>
     );
 }
 
-export default AddRestaurantForm;
+export default UpdateRestaurantForm;

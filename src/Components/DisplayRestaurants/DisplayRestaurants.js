@@ -1,7 +1,7 @@
 import "./DisplayRestaurants.css";
 import Restaurant from "./Restaurant";
 
-function DisplayRestaurants({ restaurants }) {
+function DisplayRestaurants({ restaurants, user, _onClickRestaurantAction }) {
     return (
         <div className="restaurants">
             <h2>Restaurants</h2>
@@ -13,7 +13,12 @@ function DisplayRestaurants({ restaurants }) {
                     </div>
                 ) : (
                     restaurants.map((restaurant, index) => (
-                        <Restaurant key={index} restaurant={restaurant} />
+                        <Restaurant
+                            key={index}
+                            restaurant={restaurant}
+                            user={user}
+                            _onClickRestaurantAction={_onClickRestaurantAction}
+                        />
                     ))
                 )}
             </div>

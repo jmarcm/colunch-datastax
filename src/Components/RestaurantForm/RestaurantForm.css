@@ -4,6 +4,7 @@
     align-items: center;
 }
 
-.suggest-restaurant label {
+.suggest-restaurant label,
+.update-restaurant label {
     display: block;
 }

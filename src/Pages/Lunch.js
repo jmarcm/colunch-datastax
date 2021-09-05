@@ -1,11 +1,13 @@
 import fetch from "node-fetch";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
 
 import "./Lunch.css";
 
 import DateButton from "../Components/DateButton/DateButton";
 import SwitchLunchDisplay from "../Components/LunchParticipants/SwitchLunchDisplay";
+import DisplayRestaurantsForVote from "../Components/DisplayRestaurantsForVote/DisplayRestaurantsForVote";
+import { RestaurantsContext } from "../contexts/RestaurantsContext";
 
 const { parseDates } = require("../utils/arrays");
 
@@ -13,6 +15,9 @@ function Lunch({ user }) {
     const [lunchDates, setLunchDates] = useState([]);
     const [selectedLunchDate, setSelectedLunchDate] = useState("");
     const [newDate, setNewDate] = useState("");
+    const [restaurants] = useContext(RestaurantsContext);
+
+    console.log("restaurants", restaurants);
 
     const [dateErrorMessage, setDateErrorMessage] = useState("");
 
@@ -76,53 +81,58 @@ function Lunch({ user }) {
         }
     }
 
-    if (user) {
-        return (
-            <>
-                <h1>Organisation des lunchs</h1>
-                <div id="lunch-history">
-                    <h2>Historique des lunchs</h2>
-                    <div className="lunch-dates">
-                        {lunchDates.map((lunchDate, index) => {
-                            return (
-                                <DateButton
-                                    key={index}
-                                    lunchDate={lunchDate}
-                                    onLunchDateClick={setSelectedDate}
-                                />
-                            );
-                        })}
-                    </div>
+    if (!user) {
+        return <Redirect to="/" push={true} />;
+    }
+
+    return (
+        <>
+            <h1>Organisation des lunchs</h1>
+            <div id="lunch-history">
+                <h2>Historique des lunchs</h2>
+                <div className="lunch-dates">
+                    {lunchDates.map((lunchDate, index) => {
+                        return (
+                            <DateButton
+                                key={index}
+                                lunchDate={lunchDate}
+                                _onLunchDateClick={setSelectedDate}
+                            />
+                        );
+                    })}
                 </div>
-                {user?.role === "admin" && (
-                    <div id="lunch-proposition">
-                        <h2>Proposer un lunch</h2>
-                        <input
-                            type="text"
-                            placeholder="Nouvelle date"
-                            onChange={handleDateChange}
-                            value={newDate}
-                        />
-                        <input
-                            type="button"
-                            onClick={handleAddDateClick}
-                            value="Valider"
-                        />
-                        <p>Indiquer la date au format "aaaa-mm-jj"</p>
-                        <p>{dateErrorMessage}</p>
-                    </div>
-                )}
-                {selectedLunchDate && (
+            </div>
+            {user?.role === "admin" && (
+                <div id="lunch-proposition">
+                    <h2>Proposer un lunch</h2>
+                    <input
+                        type="text"
+                        placeholder="Nouvelle date"
+                        onChange={handleDateChange}
+                        value={newDate}
+                    />
+                    <input
+                        type="button"
+                        onClick={handleAddDateClick}
+                        value="Valider"
+                    />
+                    <p>Indiquer la date au format "aaaa-mm-jj"</p>
+                    <p>{dateErrorMessage}</p>
+                </div>
+            )}
+            {selectedLunchDate && (
+                // affiche un formulaire pour indiquer la participation
+                // ou la liste des participants
+                <>
                     <SwitchLunchDisplay
                         user={user}
                         selectedLunchDate={selectedLunchDate}
                     />
-                )}
-            </>
-        );
-    } else {
-        return <Redirect to="/" push={true} />;
-    }
+                    <DisplayRestaurantsForVote />
+                </>
+            )}
+        </>
+    );
 }
 
 export default Lunch;
